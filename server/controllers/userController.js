@@ -76,7 +76,8 @@ const addUserInterests = asyncHandler(async (req, res) => {
 		res.status(401);  
 		throw new Error('Invalid email'); 
 	}
-// new line for diffing
+
+	
 })
 
 export {
