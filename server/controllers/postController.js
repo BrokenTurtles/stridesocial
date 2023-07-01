@@ -31,18 +31,15 @@ const addPost = asyncHandler(async (req, res) => {
 //ACCESS    Private
 const getAllPosts = asyncHandler(async (req, res) => {
 
-    //IF WE WANT TO DO SOME SORT OF FILTER BY INTERESTS LATER ON FOR STRETCH
-    // const keyword = req.query.keyword ? {
-    //     name: {
-    //         $regex: req.query.keyword,
-    //         $options: 'i'
-    //     }
-    // } : {}
-
+		// includes ability to filter by tag 
+		// TODO if there's time: add multiple tags 
+		let tag = req.query.tag; 
+		const tagRegExp = new RegExp(`${tag}`,'i');
     //ADD ...keyword to our mongoose find
-    
+    //console.log("getting all posts ")
         const posts = await Post.find();
-        res.json(posts);
+				res.status(200).json(tag ? posts.filter(post=> JSON.stringify(post.tags).match(tagRegExp)) : posts);
+        //res.json(tag ? posts.filter( post => post.tags.contains(tag)) : posts);
 
     //DO WE NEED TO HANDLE A NO POSTS SITUATION? I DONT THINK SO.
     });
@@ -86,24 +83,4 @@ const editPost = asyncHandler(async (req, res) => {
 
 }); 
 
-
-// ENPOINT READ api/posts?tag=<tagname> 
-// PURPOSE: find posts by tag
-// ACCESS: public
-const findTaggedPosts = asyncHandler( async (req, res) => {
-	
-	// required parameters: the tag you want to search by must be in req.query (?tag=)
-	const {tag} = req.query; 
-
-	const posts = await Posts.find() ; 
-	const taggedPosts = posts.filter( post => {
-		post.tags.contains(tag);
-	} )
-	res.json(taggedPosts);
-
-
-}
-
-)
-
-export { getAllPosts, addPost, deletePost, editPost, findTaggedPosts };
+export { getAllPosts, addPost, deletePost, editPost };
