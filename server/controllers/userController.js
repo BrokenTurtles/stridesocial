@@ -41,7 +41,7 @@ const authUser = asyncHandler(async (req, res) => {
 	const { email, password } = req.body;
 
 	const user = await User.findOne({ email });
-	console.log(user);
+	// console.log(user);
 
 	if (user && (await user.matchPassword(password))) {
         
@@ -54,7 +54,7 @@ const authUser = asyncHandler(async (req, res) => {
 		});
 	} else {
 		res.status(401);
-		throw new Error('Invalid email or password');
+		
 	}
 });
 
