@@ -51,10 +51,13 @@ const authUser = asyncHandler(async (req, res) => {
 			email: user.email,
 			isAdmin: user.isAdmin,
 			token: generateToken(user._id),
+			validUser : true,
 		});
 	} else {
-		res.status(401);
-		
+		// added validUser for both messages so that access could be made on frontEnd, couldn't access status
+		res.json({
+			validUser : false,
+		});
 	}
 });
 

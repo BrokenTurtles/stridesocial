@@ -2,18 +2,20 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const axiosFunction = async (email, password) =>{
-    const config = {headers : { 'Content-Type' : 'application/json' }};
+    const config = { headers : { 'Content-Type' : 'application/json' }};
     const data = {
         email,
         password
     }
     const result = await axios.post('/api/users/login', data, config);
-    console.log(result);
+    // console.log(result.data);
+    return result.data.validUser;
 }
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState(false);
 
     const inputEmail = (event)=>{
         setEmail(event.target.value);
@@ -24,7 +26,9 @@ const Login = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        await axiosFunction(email, password);
+        const result = await axiosFunction(email, password);
+        return (!result ? setError(true) : setError(false));
+
     }
 
     return(
@@ -34,7 +38,7 @@ const Login = () => {
             Password: <input type='password' value={password} onChange={inputPassword}/>
             <input type="submit" />
             </form>
-            
+            <div>{error === true ? <div>Invalid username or password</div> : null} </div>
         </div>
 
     )
