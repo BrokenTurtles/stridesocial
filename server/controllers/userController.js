@@ -6,42 +6,46 @@ import generateToken from '../utils/generateToken.js';
 //PURPOSE   Register a new user
 //ACCESS    Public
 const registerUser = asyncHandler(async (req, res) => {
-	const { name, email, password} = req.body;
+  console.log('RegUser hit!!!');
+  const { name, email, password } = req.body;
 
-	const userExists = await User.findOne({ email });
+  const userExists = await User.findOne({ email });
 
-	if (userExists) {
-		res.status(400);
-		throw new Error('User already exists');
-	}
+  if (userExists) {
+    res.status(400);
+    throw new Error('User already exists');
+  }
 
-	const user = await User.create({
-		name,
-		email,
-		password
-	});
+  const user = await User.create({
+    name,
+    email,
+    password,
+  });
 
-	if (user) {
-		res.status(201).json({
-			_id: user._id,
-			name: user.name,
-			email: user.email,
-			token: generateToken(user._id),
-		});
-	} else {
-		res.status(400);
-		throw new Error('Invalid user data');
-	}
+  if (user) {
+    res.status(201).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      token: generateToken(user._id),
+	  validUser : true,
+    });
+  } else {
+    res.json({
+		validUser : false,
+	})
+    //throw new Error('Invalid user data');
+  }
 });
 
 //ENDPOINT  POST api/users/login
 //PURPOSE   Authenticate User and get token
 //ACCESS    Public
 const authUser = asyncHandler(async (req, res) => {
-	const { email, password } = req.body;
+  const { email, password } = req.body;
 
-	const user = await User.findOne({ email });
-	// console.log(user);
+  const user = await User.findOne({ email });
+  console.log(user);
 
 	if (user && (await user.matchPassword(password))) {
         
@@ -60,7 +64,6 @@ const authUser = asyncHandler(async (req, res) => {
 		});
 	}
 });
-
 
 const addUserInterests = asyncHandler(async (req, res) => {	
 	// find user by email 
@@ -81,9 +84,7 @@ const addUserInterests = asyncHandler(async (req, res) => {
 		throw new Error('Invalid email'); 
 	}
 
-
-
-
+	
 })
 
 export {
