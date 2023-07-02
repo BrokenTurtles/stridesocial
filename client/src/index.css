@@ -1,0 +1,31 @@
+.header {
+    text-align: center;
+    color: #fff;
+    font-size: 48px;
+    padding: 20px;
+    background-color: #66cdaa;
+    border-radius: 50%;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    display: inline-block;
+    transform: translateY(20px);
+    animation: bounce 1s ease-in-out infinite alternate;
+    width: 100%;
+  }
+  
+  @keyframes bounce {
+    0% {
+      transform: translateY(20px);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+
+  .options {
+    display: flex;
+    justify-content: center;
+  }
+
+
+  
+  
