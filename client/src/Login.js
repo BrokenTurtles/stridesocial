@@ -28,7 +28,7 @@ const Login = () => {
     }
 
     return(
-        <div>
+        <div className='login'>
             <form id='login' onSubmit={handleSubmit}>
             Username: <input type='text' value={email} onChange={inputEmail}/>
             Password: <input type='password' value={password} onChange={inputPassword}/>
