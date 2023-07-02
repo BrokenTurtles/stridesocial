@@ -37,7 +37,7 @@ const getAllPosts = asyncHandler(async (req, res) => {
 		const tagRegExp = new RegExp(`${tag}`,'i');
     //ADD ...keyword to our mongoose find
     //console.log("getting all posts ")
-        const posts = await Post.find();
+        const posts = await Post.find().sort({date: -1});
 				res.status(200).json(tag ? posts.filter(post=> JSON.stringify(post.tags).match(tagRegExp)) : posts);
         //res.json(tag ? posts.filter( post => post.tags.contains(tag)) : posts);
 
