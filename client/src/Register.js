@@ -47,6 +47,7 @@ const Register = () => {
 
       try{
         const user = await ax(name, email, password);
+        localStorage.setItem('user', JSON.stringify(user.data))
         console.log(user.data)
         navigate('/posts')
       }catch(error){
