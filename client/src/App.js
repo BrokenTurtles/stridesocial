@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import LandingPage from './LandingPage';
+import LandingPage from './LandingPage.js';
 
 const App = () => {
-  const [message, setMessage] = useState('');
+  // const [message, setMessage] = useState('');
 
-  const [message, setMessage] = useState('');
+  // const [message, setMessage] = useState('');
 
 // useEffect(() => {
 //     fetch('/api')

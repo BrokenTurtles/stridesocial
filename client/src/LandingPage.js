@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-
+import Register from './Register.js';
+import Login from './Login.js';
 
 
 export default function LandingPage () {
@@ -20,9 +21,13 @@ export default function LandingPage () {
                     setRegister(false);
                     }}>Login </button>
             </div>
-            <div className=''>
-                {register===true && login === false ? <Register /> : null }
-                {login=== true && register === false ? <Login /> : null }
+            <div>
+                <div className='register'>
+                    {register===true && login === false ? <Register /> : null }
+                </div>
+                <div className='login'>
+                    {login=== true && register === false ? <Login /> : null }
+                </div>
             </div>
 
         </main>
