@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react'
 import LandingPage from './LandingPage';
 
 const App = () => {
+  const [message, setMessage] = useState('');
 
-const [message, setMessage] = useState('')
+  const [message, setMessage] = useState('');
 
 // useEffect(() => {
 //     fetch('/api')
@@ -17,7 +18,7 @@ const [message, setMessage] = useState('')
       <LandingPage />
       </header>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
