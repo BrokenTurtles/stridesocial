@@ -16,7 +16,8 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new Error("User already exists");
   }
 
-  const isValidEmail = email.match(/[\w\d]+@[a-z]+\.[\w]+$/gim);
+  // email validation - should be alphanumeric@alphanumeric.alpha
+  const isValidEmail = email.match(/[\w\d\.]+@[a-z]+\.[\w]+$/gim);
 
   if (!isValidEmail) {
     res.status(400);
