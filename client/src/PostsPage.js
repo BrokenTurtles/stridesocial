@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-
+import { useNavigate } from 'react-router-dom';
 const Post = ({ post, handleDelete }) => (
   <div className='post'>
     <h3>{post.name}</h3>
@@ -15,11 +15,10 @@ const PostsPage = () => {
   const [message, setMessage] = useState('');
   const [posts, setPosts] = useState();
   const [user, setUser] = useState();
-  const [deletedPost, setDeletedPost] = useState();
+  const navigate = useNavigate();
 
   const getAllPosts = async () => {
     try {
-      console.log('trying to get all posts');
       const data = await axios.get('api/posts');
       console.log(data);
       setPosts(data.data);
@@ -27,6 +26,16 @@ const PostsPage = () => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const logout = () => {
+    localStorage.clear();
+
+    setUser(null);
+    setPosts(null);
+    setMessage('');
+
+    navigate('/');
   };
 
   useEffect(() => {
@@ -40,6 +49,24 @@ const PostsPage = () => {
     getAllPosts();
   }, []);
 
+  const handleDelete = async (event) => {
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      };
+      const data = {
+        userId: user._id,
+        name: user.name,
+      };
+
+      await axios.delete('api/posts/' + event.target.id, data, config);
+      getAllPosts();
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
@@ -62,32 +89,9 @@ const PostsPage = () => {
     }
   };
 
-  const handleDelete = async (event) => {
-    console.log('handleDelete');
-    try {
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      };
-
-      const data = {
-        userId: user._id,
-      };
-
-      const response = await axios.delete(
-        'api/posts/' + event.target.id,
-        data,
-        config
-      );
-      getAllPosts();
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
   return (
     <div className='posts-container'>
+      <button onClick={logout}>Logout</button>
       <form className='post-form' onSubmit={handleSubmit}>
         <input
           type='text'
