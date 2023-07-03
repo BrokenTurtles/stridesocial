@@ -9,6 +9,18 @@ const registerUser = asyncHandler(async (req, res) => {
   console.log("RegUser hit!!!");
   const { name, email, password } = req.body;
 
+
+  // email validation - should be alphanumeric@alphanumeric.alpha
+  console.log("This is the email:", email);
+  const isValidEmail = email.match(/[\w\d\.]+@[a-z]+\.[\w]+$/gim);
+  console.log("Tegex result: ", isValidEmail);
+  if (isValidEmail === null) {
+    console.log('Validemail false', isValidEmail)
+    res.status(400);
+    throw new Error("Invalid email!");
+  }
+
+
   const userExists = await User.findOne({ email });
 
   if (userExists) {
@@ -16,13 +28,8 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new Error("User already exists");
   }
 
-  // email validation - should be alphanumeric@alphanumeric.alpha
-  const isValidEmail = email.match(/[\w\d\.]+@[a-z]+\.[\w]+$/gim);
-
-  if (!isValidEmail) {
-    res.status(400);
-    throw new Error("Invalid email!");
-  }
+  
+  
 
   const user = await User.create({
     name,
