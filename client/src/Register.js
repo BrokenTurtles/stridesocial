@@ -11,6 +11,7 @@ const ax = async (name, email, password) => {
   };
   const result = await axios.post('api/users', data, config);
   console.log(result);
+  return result;
 };
 
 const Register = () => {

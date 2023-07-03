@@ -10,13 +10,15 @@ const axiosFunction = async (email, password) =>{
     }
     try{
         const result = await axios.post('/api/users/login', data, config);
-        console.log(result)
+        // console.log(result)
         localStorage.setItem('user', JSON.stringify(result.data))
-        return result.data
+        // console.log(result.request.status)
+        return result.request.status
         
     }catch(error){
-console.log(error)
-
+        // console.log(error)
+        // console.log(error.request.status)
+        return error.request.status;
     }
  
 }
@@ -26,6 +28,7 @@ console.log(error)
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState(false);
 
     const navigate = useNavigate()
 
@@ -40,8 +43,11 @@ const Login = () => {
         event.preventDefault();
         try{
             const user = await axiosFunction(email, password);
-            console.log('this is my user', user)
-            if(user) navigate('/posts')
+            // console.log('this is my user', user)
+            if(user === 200) navigate('/posts');
+            else{
+                setError(true)
+            }
         }catch(error){
             console.log(error.message)
         }
@@ -55,7 +61,7 @@ const Login = () => {
             Password: <input type='password' value={password} onChange={inputPassword}/>
             <input type="submit" />
             </form>
-            
+            <div>{error === true ? <div>Invalid username or password</div> : null} </div>
         </div>
 
     )

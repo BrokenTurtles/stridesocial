@@ -1,13 +1,13 @@
 import mongoose from 'mongoose';
-// import dotenv from 'dotenv';
+import dotenv from 'dotenv';
 
-//dotenv.config()
+dotenv.config()
 
 const connectDB = async () => {
   try {
     console.log('MONGO_URI', process.env.MONGO_URI);
     const connection = await mongoose.connect(
-      'mongodb+srv://brok3turtl3:admin@cluster0.0e2wjxf.mongodb.net/',
+      process.env.MONGO_URI,
       {
         useUnifiedTopology: true,
         useNewUrlParser: true,
