@@ -15,7 +15,6 @@ const PostsPage = () => {
   const [message, setMessage] = useState('');
   const [posts, setPosts] = useState();
   const [user, setUser] = useState();
-  const navigate = useNavigate();
 
   const getAllPosts = async () => {
     try {
