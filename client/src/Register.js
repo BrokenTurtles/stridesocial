@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const ax = async (name, email, password) => {
   const config = { headers: { 'Content-Type': 'application/json' } };
@@ -9,9 +9,14 @@ const ax = async (name, email, password) => {
     email,
     password,
   };
-  const result = await axios.post('api/users', data, config);
-  console.log(result);
-  return result;
+
+  try {
+    const result = await axios.post('api/users', data, config);
+    return result.request.status;
+  }
+  catch (error) {
+    return error.request.status;
+  }
 };
 
 const Register = () => {
@@ -41,25 +46,26 @@ const Register = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (password1 === password2) {
-      console.log('Password Match');
-      setPasswordMissMatch(false);
-      const password = password1;
-
-      try{
-        const user = await ax(name, email, password);
-        localStorage.setItem('user', JSON.stringify(user.data))
-        console.log(user.data)
-        navigate('/posts')
-      }catch(error){
-        console.log(error.message)
-
-      }
+    try {
+      const user = await ax(name, email, password1);
+      // localStorage.setItem('user', JSON.stringify(user.data))
+      console.log(user)
       
-    } else {
-      console.log('Password MISMatch');
-      setPasswordMissMatch(true);
+      if (password1 === password2 && user === 201) {
+        // console.log('Password Match');
+        setPasswordMissMatch(false);
+        navigate('/posts')
+      } else {
+        // console.log('Password MISMatch');
+        setPasswordMissMatch(true);
+      }
     }
+    catch (error) {
+      console.log(error.message)
+
+    }
+
+
   };
   return (
     <div>
@@ -86,7 +92,7 @@ const Register = () => {
         <input type='submit' />
       </form>
       <div>
-        {passwordMissMatch === true ? <div>Passwords do not match </div> : null}
+        {passwordMissMatch === true ? <div>Please try using new information</div> : null}
       </div>
     </div>
   );
