@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import {useNavigate} from 'react-router-dom'
 
 const ax = async (name, email, password) => {
   const config = { headers: { 'Content-Type': 'application/json' } };
@@ -18,6 +19,8 @@ const Register = () => {
   const [password1, setPassword1] = useState('');
   const [password2, setPassword2] = useState('');
   const [passwordMissMatch, setPasswordMissMatch] = useState('false');
+
+  const navigate = useNavigate();
 
   const newName = (event) => {
     setName(event.target.value);
@@ -41,7 +44,17 @@ const Register = () => {
       console.log('Password Match');
       setPasswordMissMatch(false);
       const password = password1;
-      await ax(name, email, password);
+
+      try{
+        const user = await ax(name, email, password);
+        localStorage.setItem('user', JSON.stringify(user.data))
+        console.log(user.data)
+        navigate('/posts')
+      }catch(error){
+        console.log(error.message)
+
+      }
+      
     } else {
       console.log('Password MISMatch');
       setPasswordMissMatch(true);
