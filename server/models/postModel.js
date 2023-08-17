@@ -25,6 +25,11 @@ const postSchema = Schema({
 		type: Date,
 		default: Date.now,
 	},
+
+	tags: {
+		type: Array, 
+		default: [], 
+	},
 });
 
 

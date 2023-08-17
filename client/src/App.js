@@ -1,23 +1,24 @@
 import React, { useEffect, useState } from 'react'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import LandingPage from './LandingPage.js';
+import PostsPage from './PostsPage.js';
 
 const App = () => {
 
-const [message, setMessage] = useState('')
-
-useEffect(() => {
-    fetch('/api')
-      .then(response => response.json())
-      .then(data => setMessage(data.message));
-  }, []);
-
   return (
+    <Router>
     <div className="App">
       <header className="App-header">
-        TEST
-        {message}
+        <Routes>
+          <Route path='/' element={<LandingPage />} />
+          <Route path='/posts' element={<PostsPage/>} /> 
+      
+      
+      </Routes>
       </header>
     </div>
-  )
-}
+  </Router>  
+  );
+};
 
-export default App
+export default App;
